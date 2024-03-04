@@ -16,6 +16,7 @@ class CaixaMercado(QWidget):
         
         layoutCabecalho  = QHBoxLayout()
         layoutDireita    = QVBoxLayout()
+        layoutDireita.addStretch(1)
         layoutDireita.setSpacing(0)
         layoutEsquerda   = QVBoxLayout()
         layoutImgDados   = QHBoxLayout()
@@ -128,10 +129,12 @@ class CaixaMercado(QWidget):
        
     
         # Tabela de Preços
+        labelTabeladePrecos = QLabel("Lista de Produtos")
+        labelTabeladePrecos.setStyleSheet("QLabel{font-size: 35px; color:white; background-color:#21426C; border-radius:5px; margin-right:46px}")
         # Criando a tabela de dados do lado direito
         self.tbResumo = QTableWidget()
         self.tbResumo.setColumnCount(5)
-        self.tbResumo.setRowCount(10)
+        self.tbResumo.setRowCount(15)
         self.tbResumo.setFixedHeight(400)
         self.tbResumo.setFixedWidth(830)
 
@@ -154,6 +157,7 @@ class CaixaMercado(QWidget):
 
         # Layouts do lado direito da tela direita
         labelDireita.setLayout(layoutDireita)
+        layoutDireita.addWidget(labelTabeladePrecos)
         layoutDireita.addWidget(self.tbResumo)
         layoutDireita.addWidget(labelTotal)
         layoutDireita.addWidget(self.totalEdit)
@@ -224,7 +228,8 @@ class CaixaMercado(QWidget):
         print("event", e)
 
         ## Adicionando itens na tabela(F2)
-        if (e.key() == Qt.Key_F2) :   
+        
+        if (e.key() == Qt.Key_F2):   
 
             print(' Você teclou F2')
 
@@ -244,6 +249,7 @@ class CaixaMercado(QWidget):
             self.nomeProdutoEdit.setText("")
             self.qtdEdit.setText("")
             self.valorUnEdit.setText("")
+            self.subtotalEdit.setText("0,00")
         
         ## Calculando Subtotal (F1)
         elif(e.key() == Qt.Key_F1):
@@ -252,13 +258,14 @@ class CaixaMercado(QWidget):
             result = float(qtd)*float(prc)
             self.subtotalEdit.setText(str(result))
         
-        ## Calculando o Troco
+        ## Calculando o Troco(f3)
         elif(e.key() == Qt.Key_F3):
             totalPago = self.recebidoEdit.text()
             totalPagar = self.totalEdit.text()
             result = float(totalPago) - float(totalPagar)
             self.trocoEdit.setText(str(result))
 
+        ## Limpando a tela (f4)
         elif(e.key() == Qt.Key_F4):
 
             self.tbResumo.clearContents()
